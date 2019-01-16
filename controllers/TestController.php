@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use yii\web\Controller;
 use app\models\Product;
+use Yii;
 
 class TestController extends Controller
 {
@@ -24,5 +25,10 @@ class TestController extends Controller
 		return $this->render('index', [
 			'product' => $product
 		]);
+	}
+
+	public function actionShow() {
+
+		return Yii::$app -> test -> show();
 	}
 }
