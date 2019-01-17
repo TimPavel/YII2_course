@@ -29,6 +29,9 @@ class TestController extends Controller
 
 	public function actionShow() {
 
-		return Yii::$app -> test -> show();
+		$var = Yii::$app -> test -> show();
+		return $this->render('show', [
+			'var' => $var
+		]);
 	}
 }
