@@ -39,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'created_at'], 'required', 'on' => self::SCENARIO_CREATE], // обяз атрибуты при создания
+            [['name', 'price', 'created_at'], 'required', 'on' => self::SCENARIO_CREATE], // обяз атрибуты при создании
             [['price', 'created_at'], 'required', 'on' => self::SCENARIO_UPDATE],	// обяз атрибуты при обновлении данных
             [['created_at'], 'integer'],
             [['price'], 'integer', 'min' => 0, 'max' => 1000],
