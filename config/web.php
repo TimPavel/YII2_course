@@ -16,6 +16,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'some',
+           
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -51,6 +52,7 @@ $config = [
             'rules' => [
             ],
         ],
+
 		'test' => [
 			'class' => \app\components\TestService::class,
 			'prop' => 'new simple text',

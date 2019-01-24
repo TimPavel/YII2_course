@@ -30,6 +30,7 @@ class Product extends \yii\db\ActiveRecord
 		return [
 			self::SCENARIO_UPDATE => ['price', 'created_at'],
 			self::SCENARIO_CREATE => ['name', 'price', 'created_at'],
+			self::SCENARIO_DEFAULT => ['name', 'price', 'created_at'],
 		];
 	}
 
@@ -42,7 +43,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'price', 'created_at'], 'required', 'on' => self::SCENARIO_CREATE], // обяз атрибуты при создании
             [['price', 'created_at'], 'required', 'on' => self::SCENARIO_UPDATE],	// обяз атрибуты при обновлении данных
             [['created_at'], 'integer'],
-            [['price'], 'integer', 'min' => 0, 'max' => 1000],
+            [['price'], 'integer', 'min' => 1, 'max' => 999],
             [['name'], 'string', 'max' => 20],
             [['name'], 'trim'],
             [['name'], 'filter', 'filter' => function($value) {
