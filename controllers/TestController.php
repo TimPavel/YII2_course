@@ -46,22 +46,22 @@ class TestController extends Controller
 //        вставить несколько записей в таблицу user,
 //        в поле password_hash можно вставить произвольные значения, поле id заполняется автоматически.
         Yii::$app->db->createCommand()->insert('user', [
-            'username' => 'third',
-            'password_hash' => 'fdgdukiiofgfg56565fgf',
-            'creator_id' => time(),
+            'username' => 'fifth',
+            'password_hash' => 'fppppppppppppppppy',
+            'creator_id' => 15,
             'created_at' => time(),
         ])->execute();
         
 //        5) В экшене insert TestController-а через Yii::$app->db->createCommand()->batchInsert()
 //        вставить одним вызовом сразу 3 записи в таблицу task, в поле creator_id подставив
-//        реальное значение id из user (просто числом).
-        Yii::$app->db->createCommand()->batchInsert('task',
-            ['title', 'description', 'creator_id', 'created_at'], [
-            ['first_title', 'first_description', 1, time()],
-            ['second_title', 'second_description', 2, time()],
-            ['third_title', 'third_description', 5, time()],
-        ])->execute();
-        
+////        реальное значение id из user (просто числом).
+//        Yii::$app->db->createCommand()->batchInsert('task',
+//            ['title', 'description', 'creator_id', 'created_at'], [
+//            ['first_title', 'first_description', 1, time()],
+//            ['second_title', 'second_description', 2, time()],
+//            ['third_title', 'third_description', 5, time()],
+//        ])->execute();
+//
     }
     
     public function actionSelect() {
@@ -71,17 +71,35 @@ class TestController extends Controller
             ->from('user')
             ->where('id=:id', [':id' => 1])
             ->one();
-
-//       б) Все записи с id>1 отсортированные по имени (orderBy())
+    
+        return VarDumper::dumpAsString($result, 3, true);
+       
+       
+////       б) Все записи с id>1 отсортированные по имени (orderBy())
         $result = (new \yii\db\Query())
             ->from('user')
             ->where(['>', 'id', 1])
             ->orderBy('username ASC')
             ->all();
-    
+
+         return VarDumper::dumpAsString($result, 3, true);
+//
+//
 //        в) количество записей.
-        $result = count($result);
+         $result = (new \yii\db\Query())
+            ->from('user')
+            ->where(['>', 'id', 1])
+            ->orderBy('username ASC')
+            ->count();
 
         return VarDumper::dumpAsString($result, 3, true);
+    
+        
+//        $result = (new \yii\db\Query())
+//            ->from('task')
+//            ->innerJoin('user', 'task.creator_id' === 'user.id')
+//            ->all();
+//        return VarDumper::dumpAsString($result, 2, true);
+//
     }
 }
