@@ -8,23 +8,24 @@
 
 namespace app\controllers;
 
+
+use phpDocumentor\Reflection\Types\Object_;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
-use app\models\Product;
 use Yii;
 
 class TestController extends Controller
 {
 	public function actionIndex() {
 
-		$model = new Product();
+		$model = new Object_();
 		$model -> id = 1;
 		$model -> name = "<p>Nokia_6230 </p> ";
 		//$model -> category = 'phone';
 		$model -> price = 120;
 		$model -> created_at = 120;
 
-		$model->validate();
+//		$model->validate();
 		//return VarDumper::dumpAsString($product -> safeAttributes());
 		//return VarDumper::dumpAsString($model -> getAttributes());
 
