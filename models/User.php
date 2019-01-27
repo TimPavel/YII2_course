@@ -58,6 +58,12 @@ class User extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+    
+    public function getAccessedTasks()
+    {
+        return $this->hasMany(Task::className(), ['id' => 'task_id'])
+            ->viaTable('task_user', ['user_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery

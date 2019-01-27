@@ -48,7 +48,7 @@ class UserController extends Controller
         if(!$model->save()) {
             VarDumper::dump($model->getErrors(), 5, true);
         }
-        
+
         // 4б
         $user = User::findOne(11);
         $task = new Task();
@@ -60,7 +60,7 @@ class UserController extends Controller
         if(!$task->save()) {
             VarDumper::dump($task->getErrors(), 5, true);
         }
-        
+
         // 4в
         $users = User::find()
             ->select(['username'])
@@ -68,13 +68,17 @@ class UserController extends Controller
             ->all();
         VarDumper::dump($users, 5, true);
         exit();
-        
+
         // 4г
         $users = User::find()
             ->joinWith('tasks')
             ->all();
         VarDumper::dump($users, 5, true);
         exit();
+        
+        
+//        $model = User::findOne(9);
+//        VarDumper::dump(($model->getAccessedTasks()->all()), 5, true);
     }
     
     /**
