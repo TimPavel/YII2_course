@@ -37,6 +37,7 @@ class UserController extends Controller
      */
     public function actionTest()
     {
+        // 4а
         $model = new User();
         $model->username = 'Dormidon';
         $model->password_hash = 'ytytnnbnbnbytyty';
@@ -48,17 +49,32 @@ class UserController extends Controller
             VarDumper::dump($model->getErrors(), 5, true);
         }
         
+        // 4б
         $user = User::findOne(11);
         $task = new Task();
-        $task->title = 'Third title';
-        $task->description = 'Third description';
+        $task->title = 'Forth title';
+        $task->description = 'Forth description';
         $task->created_at = time();
         $task->link('creator', $user);
 
         if(!$task->save()) {
-        VarDumper::dump($task->getErrors(), 5, true);
+            VarDumper::dump($task->getErrors(), 5, true);
         }
         
+        // 4в
+        $users = User::find()
+            ->select(['username'])
+            ->with('tasks')
+            ->all();
+        VarDumper::dump($users, 5, true);
+        exit();
+        
+        // 4г
+        $users = User::find()
+            ->joinWith('tasks')
+            ->all();
+        VarDumper::dump($users, 5, true);
+        exit();
     }
     
     /**
