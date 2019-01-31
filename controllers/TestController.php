@@ -70,35 +70,38 @@ class TestController extends Controller
 //       а) Запись с id=1
         $result = (new \yii\db\Query())
             ->from('user')
-            ->where('id=:id', [':id' => 1])
+
+            ->where('id=:id', [':id' => 2]);
             ->one();
     
         return VarDumper::dumpAsString($result, 3, true);
        
-       
-////       б) Все записи с id>1 отсортированные по имени (orderBy())
-        $result = (new \yii\db\Query())
-            ->from('user')
-            ->where(['>', 'id', 1])
-            ->orderBy('username ASC')
-            ->all();
 
-         return VarDumper::dumpAsString($result, 3, true);
 //
+//////       б) Все записи с id>1 отсортированные по имени (orderBy())
+//        $result = (new \yii\db\Query())
+//            ->from('user')
+//            ->where(['>', 'id', 1])
+//            ->orderBy('username ASC')
+//            ->all();
 //
-//        в) количество записей.
-         $result = (new \yii\db\Query())
-            ->from('user')
-            ->where(['>', 'id', 1])
-            ->orderBy('username ASC')
-            ->count();
-
-        return VarDumper::dumpAsString($result, 3, true);
-    
+//         return VarDumper::dumpAsString($result, 3, true);
+////
+////
+////        в) количество записей.
+//         $result = (new \yii\db\Query())
+//            ->from('user')
+//            ->where(['>', 'id', 1])
+//            ->orderBy('username ASC')
+//            ->count();
+//
+//        return VarDumper::dumpAsString($result, 3, true);
+//
         
 //        $result = (new \yii\db\Query())
 //            ->from('task')
-//            ->innerJoin('user', 'task.creator_id' === 'user.id')
+//            ->innerJoin('user', 'task.creator_id = user.id')
+
 //            ->all();
 //        return VarDumper::dumpAsString($result, 2, true);
 //
