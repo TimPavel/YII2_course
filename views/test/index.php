@@ -15,8 +15,8 @@ use yii\widgets\DetailView;
 	'attributes' => [
 		'id',
 		'name',
-		'category',
 		'price',
+		'created_at',
 	],
 ]);
 ?>
