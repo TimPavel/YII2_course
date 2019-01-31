@@ -46,7 +46,6 @@ class UserBase extends \yii\base\BaseObject implements \yii\web\IdentityInterfac
                 return new static($user);
             }
         }
-
         return null;
     }
 
@@ -63,7 +62,6 @@ class UserBase extends \yii\base\BaseObject implements \yii\web\IdentityInterfac
                 return new static($user);
             }
         }
-
         return null;
     }
 

@@ -50,6 +50,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeSave($insert)
 	{
+		if ($this->password) {
+			$this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+		}
+
 		if (!parent::beforeSave($insert)) {
 			return false;
 		}
@@ -58,9 +62,6 @@ class User extends ActiveRecord implements IdentityInterface
 			$this->auth_key = \Yii::$app->security->generateRandomString();
 		}
 
-		if ($this->password) {
-			$this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-		}
 
 		return true;
 	}

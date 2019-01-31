@@ -77,7 +77,7 @@ class UserController extends Controller
             ->with('tasks')
             ->all();
         VarDumper::dump($users, 5, true);
-        exit();
+
 
         // 4г
         $users = User::find()
