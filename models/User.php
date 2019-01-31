@@ -29,24 +29,6 @@ class User extends ActiveRecord implements IdentityInterface
 {
 	public $password;
 
-/**
- * This is the model class for table "user".
- *
- * @property int $id
- * @property string $username
- * @property string $password_hash
- * @property string $auth_key
- * @property int $creator_id
- * @property int $updater_id
- * @property int $created_at
- * @property int $updated_at
- *
- * @property Task[] $tasks
- * @property Task[] $tasks0
- * @property TaskUser[] $taskUsers
- */
-class User extends \yii\db\ActiveRecord
-{
     /**
      * {@inheritdoc}
      */
