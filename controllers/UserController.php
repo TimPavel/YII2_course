@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\Task;
 use Yii;
 use app\models\User;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -23,6 +25,12 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+        	TimestampBehavior::className(),
+			[
+				'class' => BlameableBehavior::className(),
+				'createdByAttribute' => 'creator_id',
+				'updatedByAttribute' => 'updater_id',
+			],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -47,44 +55,45 @@ class UserController extends Controller
      */
     public function actionTest()
     {
+    	return parent::className();
         // 4а
-        $model = new User();
-        $model->username = 'Dormidon';
-        $model->password_hash = 'ytytnnbnbnbytyty';
-        $model->creator_id = '3';
-        $model->created_at = time();
-        $model->save();
-
-        if(!$model->save()) {
-            VarDumper::dump($model->getErrors(), 5, true);
-        }
-
-        // 4б
-        $user = User::findOne(11);
-        $task = new Task();
-        $task->title = 'Forth title';
-        $task->description = 'Forth description';
-        $task->created_at = time();
-        $task->link('creator', $user);
-
-        if(!$task->save()) {
-            VarDumper::dump($task->getErrors(), 5, true);
-        }
-
-        // 4в
-        $users = User::find()
-            ->select(['username'])
-            ->with('tasks')
-            ->all();
-        VarDumper::dump($users, 5, true);
-
-
-        // 4г
-        $users = User::find()
-            ->joinWith('tasks')
-            ->all();
-        VarDumper::dump($users, 5, true);
-        exit();
+//        $model = new User();
+//        $model->username = 'Dormidon';
+//        $model->password_hash = 'ytytnnbnbnbytyty';
+//        $model->creator_id = '3';
+//        $model->created_at = time();
+//        $model->save();
+//
+//        if(!$model->save()) {
+//            VarDumper::dump($model->getErrors(), 5, true);
+//        }
+//
+//        // 4б
+//        $user = User::findOne(11);
+//        $task = new Task();
+//        $task->title = 'Forth title';
+//        $task->description = 'Forth description';
+//        $task->created_at = time();
+//        $task->link('creator', $user);
+//
+//        if(!$task->save()) {
+//            VarDumper::dump($task->getErrors(), 5, true);
+//        }
+//
+//        // 4в
+//        $users = User::find()
+//            ->select(['username'])
+//            ->with('tasks')
+//            ->all();
+//        VarDumper::dump($users, 5, true);
+//
+//
+//        // 4г
+//        $users = User::find()
+//            ->joinWith('tasks')
+//            ->all();
+//        VarDumper::dump($users, 5, true);
+//        exit();
         
         
 //        $model = User::findOne(9);

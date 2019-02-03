@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * TaskController implements the CRUD actions for Task model.
@@ -21,6 +23,12 @@ class TaskController extends Controller
     public function behaviors()
     {
         return [
+			TimestampBehavior::className(),
+			[
+				'class' => BlameableBehavior::className(),
+				'createdByAttribute' => 'creator_id',
+				'updatedByAttribute' => 'updater_id',
+			],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -43,13 +51,15 @@ class TaskController extends Controller
      * Lists all Task models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionMy()
     {
+    	$query = Task::find()->byCreator(Yii::$app->user->id);
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find(),
+            'query' => $query,
         ]);
 
-        return $this->render('index', [
+        return $this->render('my', [
             'dataProvider' => $dataProvider,
         ]);
     }
