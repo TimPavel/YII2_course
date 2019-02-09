@@ -63,7 +63,6 @@ class User extends ActiveRecord implements IdentityInterface
 			$this->auth_key = \Yii::$app->security->generateRandomString();
 		}
 
-
 		return true;
 	}
 
@@ -77,9 +76,10 @@ class User extends ActiveRecord implements IdentityInterface
             [['username'], 'required'],
             [['creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password', 'auth_key'], 'string', 'max' => 255],
-
         ];
     }
+
+
 
     /**
      * {@inheritdoc}

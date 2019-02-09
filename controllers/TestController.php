@@ -22,7 +22,7 @@ class TestController extends Controller
 		$model -> id = 1;
 		$model -> name = "<p>Nokia_6230 </p> ";
 		//$model -> category = 'phone';
-		$model -> price = 120;
+		$model -> price = 3599;
 		$model -> created_at = 120;
 
 //		$model->validate();
@@ -48,7 +48,7 @@ class TestController extends Controller
 //        в поле password_hash можно вставить произвольные значения, поле id заполняется автоматически.
         Yii::$app->db->createCommand()->insert('user', [
             'username' => 'fifth',
-            'password_hash' => 'fppppppppppppppppy',
+            'password_hash' => 'fpppppppy',
             'creator_id' => 15,
             'created_at' => time(),
         ])->execute();
@@ -71,7 +71,7 @@ class TestController extends Controller
         $result = (new \yii\db\Query())
             ->from('user')
 
-            ->where('id=:id', [':id' => 2]);
+            ->where('id=:id', [':id' => 3])
             ->one();
     
         return VarDumper::dumpAsString($result, 3, true);
