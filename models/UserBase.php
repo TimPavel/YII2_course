@@ -27,7 +27,6 @@ class UserBase extends \yii\base\BaseObject implements \yii\web\IdentityInterfac
         ],
     ];
 
-
     /**
      * {@inheritdoc}
      */

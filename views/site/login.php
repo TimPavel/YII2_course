@@ -8,8 +8,6 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\VarDumper;
 
-
-
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -43,10 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
 
-    <?php ActiveForm::end();
-    VarDumper::dump($_SESSION, 5, true);?>
+<?php 
 
+ActiveForm::end();
 
+?>
 
 
     <div class="col-lg-offset-1" style="color:#999;">

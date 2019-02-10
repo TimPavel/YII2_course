@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Users',
                 'attribute' => 'title',
-                'content' => function(Task $model) {
+                'content' => function($model) {
                     $users = $model->getSharedUsers()->select('username')->column();  
-                    return join(', '.$users);   
-                }
+                    return join(', ', $users);   
+                },
             ],
             [
             	'class' => 'yii\grid\ActionColumn',
