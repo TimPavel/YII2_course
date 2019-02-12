@@ -134,21 +134,18 @@ class TaskUserController extends Controller
              ->where(['id' => $id])
              ->one();
 
+        // получает задачу из таблицы task
+        $task = Task::findOne($query->task_id);
 
-        $user = $query->getUser()->select('username'); 
-        VarDumper::dump($user->username, 5, true);
-        // // получает задачу из таблицы task
-        // $task = Task::findOne($query->task_id);
+        // проверка на то, что сздатель данной задачи это текущий пользователь и что есть такая запись в task_user    
+        if (!$query->id || $task->creator_id != Yii::$app->user->id) {
+                throw new ForbiddenHttpException();
+            }
 
-        // // проверка на то, что сздатель данной задачи это текущий пользователь и что есть такая запись в task_user    
-        // if (!$query->id || $task->creator_id != Yii::$app->user->id) {
-        //         throw new ForbiddenHttpException();
-        //     }
+        $this->findModel($id)->delete();
 
-        // $this->findModel($id)->delete();
-
-        // Yii::$app->session->setFlash('success', 'Успешно удалено');    
-        // return $this->redirect(['task/shared']);
+        Yii::$app->session->setFlash('success', 'Успешно удалено');    
+        return $this->redirect(['task/shared']);
     }
 
     /**
