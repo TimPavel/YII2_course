@@ -113,7 +113,7 @@ class TaskUserController extends Controller
             if (!$task_user || $task->creator_id != Yii::$app->user->id) {
                 throw new ForbiddenHttpException();
             }
-            $task->unlinkAll('taskUsers', true);
+            $task->unlinkAll(Task::RELATION_TASK_USERS, true);
         }
         
        Yii::$app->session->setFlash('success', 'Доступы к задаче удалены');
@@ -130,12 +130,26 @@ class TaskUserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $query = TaskUser::find()
+             ->where(['id' => $id])
+             ->one();
 
-        Yii::$app->session->setFlash('success', 'Успешно удалено');    
-        return $this->redirect(['task/shared']);
+
+        $user = $query->getUser()->select('username'); 
+        VarDumper::dump($user->username, 5, true);
+        // // получает задачу из таблицы task
+        // $task = Task::findOne($query->task_id);
+
+        // // проверка на то, что сздатель данной задачи это текущий пользователь и что есть такая запись в task_user    
+        // if (!$query->id || $task->creator_id != Yii::$app->user->id) {
+        //         throw new ForbiddenHttpException();
+        //     }
+
+        // $this->findModel($id)->delete();
+
+        // Yii::$app->session->setFlash('success', 'Успешно удалено');    
+        // return $this->redirect(['task/shared']);
     }
-
 
     /**
      * Finds the TaskUser model based on its primary key value.
