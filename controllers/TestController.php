@@ -29,9 +29,15 @@ class TestController extends Controller
 		//return VarDumper::dumpAsString($product -> safeAttributes());
 		//return VarDumper::dumpAsString($model -> getAttributes());
 
-		return $this->render('index', [
-			'product' => $model
-		]);
+		return \Yii::t(
+    'app',
+    'На диване {n, plural, =0{нет кошек} =1{лежит одна кошка} one{лежит # кошка} few{лежит # кошки} many{лежит # кошек} other{лежит # кошки}}!', 
+    ['n' => 27]
+);
+		// VarDumper::dump(\Yii::$aliases, 5, true);
+		// return $this->render('index', [
+		// 	'product' => $model
+		// ]);
 	}
 
 	public function actionShow() {

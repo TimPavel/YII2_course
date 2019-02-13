@@ -95,34 +95,6 @@ class TaskUserController extends Controller
         return $this->redirect(['task/shared']);
     }
 
-    /**
-     * Delete all accesses for a task.
-     * Удаляет все доступы к задаче
-     * If deletion is successful, the browser will be redirected to the 'task/shared' page.
-     * @param integer $taskId
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     * @throws ForbiddenHttpException
-     */
-    public function actionDeleteAll($taskId)
-    {
-        // получаем доступы к задаче из таблицы task_user по taskId
-        $taskAccesses = TaskUser::findAll(['task_id' => $taskId]);
-        // получаем задачe из таблицы task по taskId
-        $task = Task::findOne($taskId);
-     
-        foreach ($taskAccesses as $task_user) {
-            // проверка владельца задачи на залогиненного пользователя  
-            if ($task->creator_id != Yii::$app->user->id) {
-                throw new ForbiddenHttpException();
-            }
-            $task->unlinkAll(Task::RELATION_TASK_USERS, true);
-        }
-        
-       Yii::$app->session->setFlash('success', 'Доступы к задаче удалены');
-       return $this->redirect(['task/shared']);
-    }
-
 
     /**
      * Deletes an existing TaskUser model.

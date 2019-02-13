@@ -35,10 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             $icon = \yii\bootstrap\Html::icon('share');
                             return Html::a($icon, ['task-user/create', 'taskId' => $model->id]);
                         },
-                        'deleteAll' => function ($url, $model, $key) {
-                            $icon = \yii\bootstrap\Html::icon('remove');
-                            return Html::a($icon, ['task-user/delete-all', 'taskId' => $model->id]);
-                        },
+                        
                 ],
             ],
         ],
