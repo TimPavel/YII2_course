@@ -46,14 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'label' => 'Task title',
-                'attribute' => 'title',
-                'content' => function($model) {
-                    $task = $model->getTask()->select('title')->column();
-                    return join($task);
-                },
-            ],          
-            [
                 'label' => 'Accessed to users',
                 'attribute' => 'title',
                 'content' => function($model){
@@ -78,7 +70,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                 ],
             ],
-
         ],
     ]); ?>
 

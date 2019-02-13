@@ -30,6 +30,7 @@ class TaskUserController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'deleteAll' => ['POST'],
                 ],
             ],
 			'access' => [
@@ -77,7 +78,7 @@ class TaskUserController extends Controller
     }
 
     /**
-     * Unshared.
+     * Unshare task.
      * If creation is successful, the browser will be redirected to the 'task/shared' page.
      * @return mixed
      */
@@ -96,21 +97,23 @@ class TaskUserController extends Controller
 
     /**
      * Delete all accesses for a task.
+     * Удаляет все доступы к задаче
      * If deletion is successful, the browser will be redirected to the 'task/shared' page.
-     * @param integer $id
+     * @param integer $taskId
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      * @throws ForbiddenHttpException
      */
     public function actionDeleteAll($taskId)
     {
-        
-        $accessedTasks = TaskUser::findAll(['task_id' => $taskId]);
-        $task = TASK::findOne($taskId);
+        // получаем доступы к задаче из таблицы task_user по taskId
+        $taskAccesses = TaskUser::findAll(['task_id' => $taskId]);
+        // получаем задачe из таблицы task по taskId
+        $task = Task::findOne($taskId);
      
-        foreach ($accessedTasks as $task_user) {
-           
-            if (!$task_user || $task->creator_id != Yii::$app->user->id) {
+        foreach ($taskAccesses as $task_user) {
+            // проверка владельца задачи на залогиненного пользователя  
+            if ($task->creator_id != Yii::$app->user->id) {
                 throw new ForbiddenHttpException();
             }
             $task->unlinkAll(Task::RELATION_TASK_USERS, true);
