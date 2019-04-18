@@ -8,18 +8,10 @@
 use yii\widgets\DetailView;
 ?>
 
-<h1><?='Hello!'?></h1>
+<h1><?="Hello! This testController index page"?></h1>
 
-<?= DetailView::widget([
-	'model' => $product,
-	'attributes' => [
-		'id',
-		'name',
-		'price',
-		'created_at',
-	],
-]);
-?>
+
+
 
 
 
