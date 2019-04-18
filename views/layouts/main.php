@@ -41,7 +41,6 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
 						['label' => 'Task_Create', 'url' => ['/task/create']],
 						['label' => 'Task', 'url' => ['/task/my']],
-						['label' => 'Test', 'url' => ['/test/index']],
                         ['label' => 'Users', 'url' => ['/user/index']],
                         ['label' => 'Shared Tasks', 'url' => ['/task/shared']],
                         ['label' => 'Accessed Tasks', 'url' => ['/task/accessed']],
