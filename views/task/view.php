@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Task */
@@ -38,5 +40,39 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'label' => 'Accessed to users',
+                'attribute' => 'title',
+                'content' => function($model){
+                    $user = $model->getUser()->select('username')->column();
+                    return join($user);
+                },
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                        'delete' => function ($url, $model, $key) {
+                            $icon = \yii\bootstrap\Html::icon('remove');
+                            return Html::a($icon, 
+                                ['task-user/delete', 'id' => $model->id],
+                                [
+                                    'data' => [
+                                    'method' => 'post',
+                                    ],
+                                ]
+                            );
+                        },
+                ],
+            ],
+        ],
+    ]); ?>
+
+    
 
 </div>

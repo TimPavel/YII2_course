@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Task;
+use app\models\TaskUser;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -110,8 +111,16 @@ class TaskController extends Controller
      */
     public function actionView($id)
     {
+        $query = TaskUser::find()
+            ->where(['task_id' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 

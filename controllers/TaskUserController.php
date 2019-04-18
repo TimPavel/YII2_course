@@ -8,6 +8,7 @@ use Yii;
 use yii\db\ActiveQuery;
 use app\models\TaskUser;
 use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -29,6 +30,7 @@ class TaskUserController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'deleteAll' => ['POST'],
                 ],
             ],
 			'access' => [
@@ -41,34 +43,6 @@ class TaskUserController extends Controller
 				],
 			],
         ];
-    }
-
-    /**
-     * Lists all TaskUser models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => TaskUser::find(),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single TaskUser model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
     }
 
     /**
@@ -104,8 +78,8 @@ class TaskUserController extends Controller
     }
 
     /**
-     * Creates a new TaskUser model.
-     * If creation is successful, the browser will be redirected to the 'task/my' page.
+     * Unshare task.
+     * If creation is successful, the browser will be redirected to the 'task/shared' page.
      * @return mixed
      */
     public function actionUnshareAll($taskId)
@@ -114,79 +88,38 @@ class TaskUserController extends Controller
         if(!$task || $task->creator_id != Yii::$app->user->id) {
             throw new ForbiddenHttpException();
         }
+        
         $task->unlinkAll(Task::RELATION_TASK_USERS, true);
         
         Yii::$app->session->setFlash('success', 'Успешно удалено');
         return $this->redirect(['task/shared']);
     }
 
-    /**
-     * Updates an existing TaskUser model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('success', 'Успешно обновлено');    
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing TaskUser model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * If deletion is successful, the browser will be redirected to the 'task/shared' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
+        $query = TaskUser::find()
+             ->where(['id' => $id])
+             ->one();
+
+        // получает задачу из таблицы task
+        $task = Task::findOne($query->task_id);
+
+        // проверка на то, что сздатель данной задачи это текущий пользователь и что есть такая запись в task_user    
+        if (!$query->id || $task->creator_id != Yii::$app->user->id) {
+                throw new ForbiddenHttpException();
+            }
+
         $this->findModel($id)->delete();
 
         Yii::$app->session->setFlash('success', 'Успешно удалено');    
-        return $this->redirect(['task/shared']);
-    }
-
-    /**
-     * Finds the TaskUser model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return TaskUser the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-
-    /**
-     * Deletes an existing TaskUser model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDeleteAll($id)
-    {
-        $this->findModel($id)->delete();
-
-        Yii::$app->session->setFlash('success', 'Успешно удалено');    
-        return $this->redirect(['task/shared']);
-
-        
-
-         $task = Task::findOne($taskId);
-        if(!$task || $task->creator_id != Yii::$app->user->id) {
-            throw new ForbiddenHttpException();
-        }
-        $task->unlinkAll(Task::RELATION_TASK_USERS, true);
-        
-        Yii::$app->session->setFlash('success', 'Успешно удалено');
         return $this->redirect(['task/shared']);
     }
 
